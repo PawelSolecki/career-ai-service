@@ -1,0 +1,63 @@
+{
+  "instructions": {
+    "task": "Generate a short professional bio for a candidate tailored to a specific job offer.",
+    "input_format": {
+      "UserCV": {
+        "personal_info": {
+          "first_name": "string",
+          "last_name": "string"
+        },
+        "role": "string",
+        "experience_years": "number",
+        "skills": [
+          {
+            "name": "string",
+            "level": "string (JUNIOR | MID | SENIOR | LEAD)",
+            "years_of_experience": "number"
+          }
+        ]
+      },
+      "JobOffer": {
+        "description": "string",
+        "technologies": ["string"],
+        "requirements": ["string"],
+        "responsibilities": ["string"]
+      },
+      "SkillResult": {
+        "hard_skills": [["string", "float"]],
+        "soft_skills": [["string", "float"]],
+        "tools": [["string", "float"]]
+      }
+    },
+    "output_format": {
+      "type": "plain text",
+      "instructions": "Return only the bio as plain text. Do not use code blocks, JSON formatting, or any extra characters. Do not wrap the output in triple backticks or any other formatting."
+    },
+    "style": {
+      "language": "polish",
+      "person": "first",
+      "length_sentences": "4-6",
+      "tone": "professional, concise",
+      "avoid": [
+        "bullet points",
+        "overly technical jargon",
+        "greetings",
+        "cover letter style",
+        "third person"
+      ]
+    },
+    "content": {
+      "rules": [
+        "role",
+        "experience",
+        "main technologies",
+        "types of projects",
+        "key soft skills",
+        "quality/growth elements"
+      ]
+    },
+    "template": {
+      "polish": "Jestem [role] z ponad [X lat] doświadczenia w [obszar]. Specjalizuję się w technologiach takich jak [TOP 3-5 hard skills]. Mam doświadczenie w projektach obejmujących [rodzaje projektów/odpowiedzialności]. W pracy cenię [TOP 2 soft skills]. Dbam o [quality/scalability/security – z oferty]. Obecnie rozwijam się w kierunku [obszar rozwoju z oferty]."
+    }
+  }
+}
