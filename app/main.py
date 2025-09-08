@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from api.offer_routes import router as offer_router
+from app.api.offer_routes import router as offer_router
 
 app = FastAPI(
     title="Career AI Service",

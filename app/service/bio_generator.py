@@ -1,15 +1,22 @@
-from model.user_cv import UserCV
-from model.skill_result import SkillResult
-from model.job_offer import JobOffer
+from app.model.user_cv import UserCV
+from app.model.skill_result import SkillResult
+from app.model.job_offer import JobOffer
 import json
 import requests
 import os
 
-PROMPT_PATH = os.path.join(os.path.dirname(__file__), '..', 'prompts', 'prompt.json')
+PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "prompt.json")
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "gemma3:4b"
 
-def generate_bio(user_cv: UserCV, skill_result: SkillResult, job_offer: JobOffer, prompt_path: str = PROMPT_PATH, llama_url: str = OLLAMA_URL) -> str:
+
+def generate_bio(
+    user_cv: UserCV,
+    skill_result: SkillResult,
+    job_offer: JobOffer,
+    prompt_path: str = PROMPT_PATH,
+    llama_url: str = OLLAMA_URL,
+) -> str:
     """
     Generate a professional bio for a candidate tailored to a specific job offer using Llama.
 
@@ -42,10 +49,10 @@ def generate_bio(user_cv: UserCV, skill_result: SkillResult, job_offer: JobOffer
             {
                 "name": s.name or "",
                 "level": s.level.value if s.level else "",
-                "years_of_experience": s.years_of_experience or 0
+                "years_of_experience": s.years_of_experience or 0,
             }
             for s in (user_cv.skills or [])
-        ]
+        ],
     }
 
     # Prepare JobOffer data for Llama
@@ -58,8 +65,12 @@ def generate_bio(user_cv: UserCV, skill_result: SkillResult, job_offer: JobOffer
 
     # Prepare SkillResult data for Llama
     skill_result_payload = {
-        "hard_skills": [[name, score] for name, score in (skill_result.hard_skills or [])],
-        "soft_skills": [[name, score] for name, score in (skill_result.soft_skills or [])],
+        "hard_skills": [
+            [name, score] for name, score in (skill_result.hard_skills or [])
+        ],
+        "soft_skills": [
+            [name, score] for name, score in (skill_result.soft_skills or [])
+        ],
         "tools": [[name, score] for name, score in (skill_result.tools or [])],
     }
 
@@ -74,7 +85,7 @@ def generate_bio(user_cv: UserCV, skill_result: SkillResult, job_offer: JobOffer
     payload = {
         "model": OLLAMA_MODEL,
         "prompt": json.dumps(llama_payload),
-        "stream": False
+        "stream": False,
     }
     response = requests.post(llama_url, json=payload, timeout=60)
     response.raise_for_status()

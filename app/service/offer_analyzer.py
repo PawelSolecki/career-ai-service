@@ -2,9 +2,9 @@ from sentence_transformers import util
 import numpy as np
 from collections import defaultdict
 from typing import Optional
-from model.skill_result import SkillResult
-from config.skill_config import hard_skills, soft_skills, tools
-from util.embeddings import get_model
+from app.model.skill_result import SkillResult
+from app.config.skill_config import hard_skills, soft_skills, tools
+from app.util.embeddings import get_model
 
 
 def analyze_job_offer(

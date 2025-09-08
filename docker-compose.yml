@@ -10,5 +10,11 @@ services:
     entrypoint:
       ["sh", "-c", "ollama serve & sleep 5 && ollama run gemma3:4b && wait"]
 
+  career-ai-service:
+    build: .
+    container_name: career-ai-service
+    ports:
+      - "8000:8000"
+
 volumes:
   ollama:
