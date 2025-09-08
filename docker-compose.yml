@@ -1,0 +1,14 @@
+services:
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+    restart: unless-stopped
+    entrypoint:
+      ["sh", "-c", "ollama serve & sleep 5 && ollama run gemma3:4b && wait"]
+
+volumes:
+  ollama:
