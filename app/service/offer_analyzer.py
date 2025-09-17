@@ -2,7 +2,7 @@ from sentence_transformers import util
 import numpy as np
 from collections import defaultdict
 from typing import Optional
-from app.model.skill_result import SkillResult
+from app.model.skill_result import SkillResult, SkillItem
 from app.config.skill_config import hard_skills, soft_skills, tools
 from app.util.embeddings import get_model
 
@@ -74,11 +74,11 @@ def analyze_job_offer(
 
     for skill, score in final_scores.items():
         category = skill_embeddings[skill]["category"]
-        categorized_scores[category].append((skill, score))
+        categorized_scores[category].append(SkillItem(name=skill, score=score))
 
     # Sort each category by score
     for category in categorized_scores:
-        categorized_scores[category].sort(key=lambda x: x[1], reverse=True)
+        categorized_scores[category].sort(key=lambda x: x.score, reverse=True)
         # Apply max_results_per_category limit if specified
         if max_results_per_category is not None:
             categorized_scores[category] = categorized_scores[category][
