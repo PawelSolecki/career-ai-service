@@ -66,12 +66,12 @@ def generate_bio(
     # Prepare SkillResult data for Llama
     skill_result_payload = {
         "hard_skills": [
-            [name, score] for name, score in (skill_result.hard_skills or [])
+            [skill.name, skill.score] for skill in (skill_result.hard_skills or [])
         ],
         "soft_skills": [
-            [name, score] for name, score in (skill_result.soft_skills or [])
+            [skill.name, skill.score] for skill in (skill_result.soft_skills or [])
         ],
-        "tools": [[name, score] for name, score in (skill_result.tools or [])],
+        "tools": [[skill.name, skill.score] for skill in (skill_result.tools or [])],
     }
 
     llama_payload = {
