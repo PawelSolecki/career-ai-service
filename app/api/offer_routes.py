@@ -1,12 +1,12 @@
 from fastapi import APIRouter, HTTPException, Query
 from app.model.job_offer import JobOffer
 from app.model.skill_result import SkillResult
-from app.model.user_cv import UserCV
-from app.service.offer_analyzer import analyze_job_offer
-from app.service.bio_generator import generate_bio
+from app.service.offer_analyzer import OfferAnalyzer
 from typing import Optional
 
 router = APIRouter()
+
+offer_analyzer = OfferAnalyzer()
 
 
 @router.post("/analyze-offer", response_model=SkillResult)
@@ -18,7 +18,7 @@ async def analyze_job_offer_endpoint(
 ):
     try:
         job_data = job_offer.to_dict()
-        result = analyze_job_offer(
+        result = offer_analyzer.analyze_job_offer(
             job_data, max_results_per_category=max_results_per_category
         )
         return result
@@ -26,19 +26,3 @@ async def analyze_job_offer_endpoint(
         raise HTTPException(
             status_code=500, detail=f"Error analyzing job offer: {str(e)}"
         )
-
-
-@router.post("/generate-bio")
-async def generate_bio_endpoint(
-    user_cv: UserCV,
-    skill_result: SkillResult,
-    job_offer: JobOffer,
-):
-    """
-    Generate a professional bio for a candidate tailored to a specific job offer using Llama.
-    """
-    try:
-        bio = generate_bio(user_cv, skill_result, job_offer)
-        return {"bio": bio}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error generating bio: {str(e)}")

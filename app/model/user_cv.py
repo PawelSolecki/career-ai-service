@@ -1,103 +1,85 @@
-from pydantic import BaseModel, EmailStr
+from pydantic import BaseModel, EmailStr, validator
 from typing import List, Optional
-from datetime import date
+from datetime import date as Date
 from enum import Enum
 
 
 class LanguageLevel(str, Enum):
-    BASIC = "BASIC"
-    INTERMEDIATE = "INTERMEDIATE"
-    ADVANCED = "ADVANCED"
-    NATIVE = "NATIVE"
-
-
-class Level(str, Enum):
-    JUNIOR = "JUNIOR"
-    MID = "MID"
-    SENIOR = "SENIOR"
-    LEAD = "LEAD"
-    PRINCIPAL = "PRINCIPAL"
-    INTERN = "INTERN"
-
-
-class UserCVSummary(BaseModel):
-    text: Optional[str] = None
-    tech: Optional[List[str]] = None
-
-
-class UserCVPersonalInfo(BaseModel):
-    first_name: Optional[str] = None
-    last_name: Optional[str] = None
-    email: Optional[EmailStr] = None
-    phone: Optional[str] = None
-    summary: Optional[str] = None
-    linkedin: Optional[str] = None
-    github: Optional[str] = None
-    website: Optional[str] = None
-    other: Optional[str] = None
-
-
-class UserCVExperience(BaseModel):
-    position: Optional[str] = None
-    company: Optional[str] = None
-    url: Optional[str] = None
-    location: Optional[str] = None
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-    summary: Optional[UserCVSummary] = None
-
-
-class UserCVEducation(BaseModel):
-    school: Optional[str] = None
-    degree: Optional[str] = None
-    field_of_study: Optional[str] = None
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-
-
-class UserCVSkill(BaseModel):
-    name: Optional[str] = None
-    level: Optional[Level] = None
-    years_of_experience: Optional[float] = None
-    keywords: Optional[List[str]] = None
-
-
-class UserCVLanguage(BaseModel):
-    language: Optional[str] = None
-    level: Optional[LanguageLevel] = None
-
-
-class UserCVCertification(BaseModel):
-    name: Optional[str] = None
-    issuer: Optional[str] = None
-    date: Optional[date] = None
-
-
-class UserCVProject(BaseModel):
-    name: Optional[str] = None
-    description: Optional[str] = None
-    url: Optional[str] = None
-    technologies: Optional[List[str]] = None
-    summary: Optional[UserCVSummary] = None
-
-
-class UserCVInternship(BaseModel):
-    position: Optional[str] = None
-    company: Optional[str] = None
-    url: Optional[str] = None
-    location: Optional[str] = None
-    start_date: Optional[date] = None
-    end_date: Optional[date] = None
-    summary: Optional[UserCVSummary] = None
+    A1 = "A1"
+    A2 = "A2"
+    B1 = "B1"
+    B2 = "B2"
+    C1 = "C1"
+    C2 = "C2"
 
 
 class UserCV(BaseModel):
-    personal_info: Optional[UserCVPersonalInfo] = None
-    technologies: Optional[List[str]] = None
-    experience: Optional[List[UserCVExperience]] = None
-    education: Optional[List[UserCVEducation]] = None
-    skills: Optional[List[UserCVSkill]] = None
-    languages: Optional[List[UserCVLanguage]] = None
-    certifications: Optional[List[UserCVCertification]] = None
-    projects: Optional[List[UserCVProject]] = None
-    internships: Optional[List[UserCVInternship]] = None
+    class PersonalInfo(BaseModel):
+        first_name: str
+        last_name: str
+        email: Optional[EmailStr] = None
+        phone: Optional[str] = None
+        role: Optional[str] = None
+        summary: Optional[str] = None
+        linked_in: Optional[str] = None
+        github: Optional[str] = None
+        website: Optional[str] = None
+        other: Optional[str] = None
+
+        @validator("first_name", "last_name")
+        def validate_required_fields(cls, v):
+            if not v or not v.strip():
+                raise ValueError("Field is required")
+            return v
+
+    class Summary(BaseModel):
+        text: Optional[str] = None
+        technologies: Optional[List[str]] = None
+
+    class Experience(BaseModel):
+        position: Optional[str] = None
+        company: Optional[str] = None
+        url: Optional[str] = None
+        location: Optional[str] = None
+        start_date: Optional[Date] = None
+        end_date: Optional[Date] = None
+        summaries: Optional[List["UserCV.Summary"]] = None
+
+    class Education(BaseModel):
+        school: Optional[str] = None
+        degree: Optional[str] = None
+        field_of_study: Optional[str] = None
+        start_date: Optional[Date] = None
+        end_date: Optional[Date] = None
+
+    class Language(BaseModel):
+        language: Optional[str] = None
+        level: Optional[LanguageLevel] = None
+
+    class Certification(BaseModel):
+        name: Optional[str] = None
+        issuer: Optional[str] = None
+        date: Optional[Date] = None
+
+    class Project(BaseModel):
+        name: Optional[str] = None
+        url: Optional[str] = None
+        summaries: Optional[List["UserCV.Summary"]] = None
+
+    personal_info: PersonalInfo
+    skills: Optional[List[str]] = None
+    experience: Optional[List[Experience]] = None
+    education: Optional[List[Education]] = None
+    languages: Optional[List[Language]] = None
+    certifications: Optional[List[Certification]] = None
+    projects: Optional[List[Project]] = None
+
+    @validator("personal_info")
+    def validate_personal_info(cls, v):
+        if v is None:
+            raise ValueError("Personal info is required")
+        return v
+
+
+UserCV.Experience.update_forward_refs()
+UserCV.Project.update_forward_refs()

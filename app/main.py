@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.api.offer_routes import router as offer_router
+from app.api.cv_routes import router as cv_router
 
 app = FastAPI(
     title="Career AI Service",
@@ -19,6 +20,7 @@ app.add_middleware(
 
 # Include routers
 app.include_router(offer_router, prefix="/api/v1", tags=["Job Offer Analysis"])
+app.include_router(cv_router, prefix="/api/v1", tags=["CV Analysis"])
 
 
 @app.get("/")
