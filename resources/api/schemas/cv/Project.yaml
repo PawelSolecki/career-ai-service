@@ -1,0 +1,10 @@
+type: object
+properties:
+  name:
+    type: string
+  url:
+    type: string
+  summaries:
+    type: array
+    items:
+      $ref: "./Summary.yaml"

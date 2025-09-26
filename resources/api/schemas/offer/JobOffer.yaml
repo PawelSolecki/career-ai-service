@@ -1,0 +1,16 @@
+type: object
+properties:
+  description:
+    type: string
+  technologies:
+    type: array
+    items:
+      type: string
+  requirements:
+    type: array
+    items:
+      type: string
+  responsibilities:
+    type: array
+    items:
+      type: string

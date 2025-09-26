@@ -1,0 +1,20 @@
+type: object
+properties:
+  position:
+    type: string
+  company:
+    type: string
+  url:
+    type: string
+  location:
+    type: string
+  start_date:
+    type: string
+    format: date
+  end_date:
+    type: string
+    format: date
+  summaries:
+    type: array
+    items:
+      $ref: "./Summary.yaml"

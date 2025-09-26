@@ -1,0 +1,14 @@
+type: object
+properties:
+  hard_skills:
+    type: array
+    items:
+      $ref: "./SkillItem.yaml"
+  soft_skills:
+    type: array
+    items:
+      $ref: "./SkillItem.yaml"
+  tools:
+    type: array
+    items:
+      $ref: "./SkillItem.yaml"

@@ -1,0 +1,34 @@
+post:
+  summary: Analyze job offer
+  description: Analyzes a job offer and extracts skill requirements
+  parameters:
+    - name: max_results_per_category
+      in: query
+      description: Maximum number of results per category
+      schema:
+        type: integer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/offer/JobOffer.yaml"
+  responses:
+    "200":
+      description: Successfully analyzed job offer
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/offer/SkillResult.yaml"
+    "400":
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"
+    "500":
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"

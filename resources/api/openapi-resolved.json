@@ -1,0 +1,1368 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Career AI Service",
+    "description": "API for analyzing job offers and extracting skill requirements",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8000",
+      "description": "Development server"
+    }
+  ],
+  "paths": {
+    "/": {
+      "get": {
+        "summary": "Root endpoint",
+        "responses": {
+          "200": {
+            "description": "Service information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "message": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health check",
+        "responses": {
+          "200": {
+            "description": "Service status",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyze-cv": {
+      "post": {
+        "summary": "Analyze CV",
+        "description": "Analyzes a user's CV and enhances it with skill matching",
+        "parameters": [
+          {
+            "name": "alpha",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "default": 1.0
+            }
+          },
+          {
+            "name": "top_k",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "default": 5
+            }
+          },
+          {
+            "name": "min_score",
+            "in": "query",
+            "schema": {
+              "type": "number",
+              "format": "float",
+              "default": 0.1
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "personal_info"
+                ],
+                "properties": {
+                  "personal_info": {
+                    "type": "object",
+                    "required": [
+                      "first_name",
+                      "last_name"
+                    ],
+                    "properties": {
+                      "first_name": {
+                        "type": "string"
+                      },
+                      "last_name": {
+                        "type": "string"
+                      },
+                      "email": {
+                        "type": "string",
+                        "format": "email"
+                      },
+                      "phone": {
+                        "type": "string"
+                      },
+                      "role": {
+                        "type": "string"
+                      },
+                      "summary": {
+                        "type": "string"
+                      },
+                      "linked_in": {
+                        "type": "string"
+                      },
+                      "github": {
+                        "type": "string"
+                      },
+                      "website": {
+                        "type": "string"
+                      },
+                      "other": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "skills": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "experience": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "position": {
+                          "type": "string"
+                        },
+                        "company": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "location": {
+                          "type": "string"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "summaries": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "technologies": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "education": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "school": {
+                          "type": "string"
+                        },
+                        "degree": {
+                          "type": "string"
+                        },
+                        "field_of_study": {
+                          "type": "string"
+                        },
+                        "start_date": {
+                          "type": "string",
+                          "format": "date"
+                        },
+                        "end_date": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    }
+                  },
+                  "languages": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "language": {
+                          "type": "string"
+                        },
+                        "level": {
+                          "type": "string",
+                          "enum": [
+                            "A1",
+                            "A2",
+                            "B1",
+                            "B2",
+                            "C1",
+                            "C2"
+                          ]
+                        }
+                      }
+                    }
+                  },
+                  "certifications": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "issuer": {
+                          "type": "string"
+                        },
+                        "date": {
+                          "type": "string",
+                          "format": "date"
+                        }
+                      }
+                    }
+                  },
+                  "projects": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "name": {
+                          "type": "string"
+                        },
+                        "url": {
+                          "type": "string"
+                        },
+                        "summaries": {
+                          "type": "array",
+                          "items": {
+                            "type": "object",
+                            "properties": {
+                              "text": {
+                                "type": "string"
+                              },
+                              "technologies": {
+                                "type": "array",
+                                "items": {
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully analyzed CV",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "personal_info"
+                  ],
+                  "properties": {
+                    "personal_info": {
+                      "type": "object",
+                      "required": [
+                        "first_name",
+                        "last_name"
+                      ],
+                      "properties": {
+                        "first_name": {
+                          "type": "string"
+                        },
+                        "last_name": {
+                          "type": "string"
+                        },
+                        "email": {
+                          "type": "string",
+                          "format": "email"
+                        },
+                        "phone": {
+                          "type": "string"
+                        },
+                        "role": {
+                          "type": "string"
+                        },
+                        "summary": {
+                          "type": "string"
+                        },
+                        "linked_in": {
+                          "type": "string"
+                        },
+                        "github": {
+                          "type": "string"
+                        },
+                        "website": {
+                          "type": "string"
+                        },
+                        "other": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "experience": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "position": {
+                            "type": "string"
+                          },
+                          "company": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "location": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "end_date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "summaries": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "technologies": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "education": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "school": {
+                            "type": "string"
+                          },
+                          "degree": {
+                            "type": "string"
+                          },
+                          "field_of_study": {
+                            "type": "string"
+                          },
+                          "start_date": {
+                            "type": "string",
+                            "format": "date"
+                          },
+                          "end_date": {
+                            "type": "string",
+                            "format": "date"
+                          }
+                        }
+                      }
+                    },
+                    "languages": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "language": {
+                            "type": "string"
+                          },
+                          "level": {
+                            "type": "string",
+                            "enum": [
+                              "A1",
+                              "A2",
+                              "B1",
+                              "B2",
+                              "C1",
+                              "C2"
+                            ]
+                          }
+                        }
+                      }
+                    },
+                    "certifications": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "issuer": {
+                            "type": "string"
+                          },
+                          "date": {
+                            "type": "string",
+                            "format": "date"
+                          }
+                        }
+                      }
+                    },
+                    "projects": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "url": {
+                            "type": "string"
+                          },
+                          "summaries": {
+                            "type": "array",
+                            "items": {
+                              "type": "object",
+                              "properties": {
+                                "text": {
+                                  "type": "string"
+                                },
+                                "technologies": {
+                                  "type": "array",
+                                  "items": {
+                                    "type": "string"
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/generate-bio": {
+      "post": {
+        "summary": "Generate bio",
+        "description": "Generates personalized bio based on CV, skills, and job offer",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "user_cv",
+                  "skill_result",
+                  "job_offer"
+                ],
+                "properties": {
+                  "user_cv": {
+                    "type": "object",
+                    "required": [
+                      "personal_info"
+                    ],
+                    "properties": {
+                      "personal_info": {
+                        "type": "object",
+                        "required": [
+                          "first_name",
+                          "last_name"
+                        ],
+                        "properties": {
+                          "first_name": {
+                            "type": "string"
+                          },
+                          "last_name": {
+                            "type": "string"
+                          },
+                          "email": {
+                            "type": "string",
+                            "format": "email"
+                          },
+                          "phone": {
+                            "type": "string"
+                          },
+                          "role": {
+                            "type": "string"
+                          },
+                          "summary": {
+                            "type": "string"
+                          },
+                          "linked_in": {
+                            "type": "string"
+                          },
+                          "github": {
+                            "type": "string"
+                          },
+                          "website": {
+                            "type": "string"
+                          },
+                          "other": {
+                            "type": "string"
+                          }
+                        }
+                      },
+                      "skills": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "experience": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "position": {
+                              "type": "string"
+                            },
+                            "company": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            },
+                            "location": {
+                              "type": "string"
+                            },
+                            "start_date": {
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "end_date": {
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "summaries": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "technologies": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      },
+                      "education": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "school": {
+                              "type": "string"
+                            },
+                            "degree": {
+                              "type": "string"
+                            },
+                            "field_of_study": {
+                              "type": "string"
+                            },
+                            "start_date": {
+                              "type": "string",
+                              "format": "date"
+                            },
+                            "end_date": {
+                              "type": "string",
+                              "format": "date"
+                            }
+                          }
+                        }
+                      },
+                      "languages": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "language": {
+                              "type": "string"
+                            },
+                            "level": {
+                              "type": "string",
+                              "enum": [
+                                "A1",
+                                "A2",
+                                "B1",
+                                "B2",
+                                "C1",
+                                "C2"
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      "certifications": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "issuer": {
+                              "type": "string"
+                            },
+                            "date": {
+                              "type": "string",
+                              "format": "date"
+                            }
+                          }
+                        }
+                      },
+                      "projects": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "url": {
+                              "type": "string"
+                            },
+                            "summaries": {
+                              "type": "array",
+                              "items": {
+                                "type": "object",
+                                "properties": {
+                                  "text": {
+                                    "type": "string"
+                                  },
+                                  "technologies": {
+                                    "type": "array",
+                                    "items": {
+                                      "type": "string"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "skill_result": {
+                    "type": "object",
+                    "properties": {
+                      "hard_skills": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "score"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "score": {
+                              "type": "number",
+                              "format": "float"
+                            }
+                          }
+                        }
+                      },
+                      "soft_skills": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "score"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "score": {
+                              "type": "number",
+                              "format": "float"
+                            }
+                          }
+                        }
+                      },
+                      "tools": {
+                        "type": "array",
+                        "items": {
+                          "type": "object",
+                          "required": [
+                            "name",
+                            "score"
+                          ],
+                          "properties": {
+                            "name": {
+                              "type": "string"
+                            },
+                            "score": {
+                              "type": "number",
+                              "format": "float"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "job_offer": {
+                    "type": "object",
+                    "properties": {
+                      "description": {
+                        "type": "string"
+                      },
+                      "technologies": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "requirements": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      },
+                      "responsibilities": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully generated bio",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "bio": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/analyze-offer": {
+      "post": {
+        "summary": "Analyze job offer",
+        "description": "Analyzes a job offer and extracts skill requirements",
+        "parameters": [
+          {
+            "name": "max_results_per_category",
+            "in": "query",
+            "description": "Maximum number of results per category",
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "technologies": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "requirements": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "responsibilities": {
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfully analyzed job offer",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "hard_skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "score"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "number",
+                            "format": "float"
+                          }
+                        }
+                      }
+                    },
+                    "soft_skills": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "score"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "number",
+                            "format": "float"
+                          }
+                        }
+                      }
+                    },
+                    "tools": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "required": [
+                          "name",
+                          "score"
+                        ],
+                        "properties": {
+                          "name": {
+                            "type": "string"
+                          },
+                          "score": {
+                            "type": "number",
+                            "format": "float"
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid input",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "detail"
+                  ],
+                  "properties": {
+                    "detail": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserCV": {
+        "type": "object",
+        "required": [
+          "personal_info"
+        ],
+        "properties": {
+          "personal_info": {
+            "type": "object",
+            "required": [
+              "first_name",
+              "last_name"
+            ],
+            "properties": {
+              "first_name": {
+                "type": "string"
+              },
+              "last_name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string",
+                "format": "email"
+              },
+              "phone": {
+                "type": "string"
+              },
+              "role": {
+                "type": "string"
+              },
+              "summary": {
+                "type": "string"
+              },
+              "linked_in": {
+                "type": "string"
+              },
+              "github": {
+                "type": "string"
+              },
+              "website": {
+                "type": "string"
+              },
+              "other": {
+                "type": "string"
+              }
+            }
+          },
+          "skills": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "experience": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "position": {
+                  "type": "string"
+                },
+                "company": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "location": {
+                  "type": "string"
+                },
+                "start_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "summaries": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string"
+                      },
+                      "technologies": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "education": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "school": {
+                  "type": "string"
+                },
+                "degree": {
+                  "type": "string"
+                },
+                "field_of_study": {
+                  "type": "string"
+                },
+                "start_date": {
+                  "type": "string",
+                  "format": "date"
+                },
+                "end_date": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          },
+          "languages": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "language": {
+                  "type": "string"
+                },
+                "level": {
+                  "type": "string",
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "B1",
+                    "B2",
+                    "C1",
+                    "C2"
+                  ]
+                }
+              }
+            }
+          },
+          "certifications": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "issuer": {
+                  "type": "string"
+                },
+                "date": {
+                  "type": "string",
+                  "format": "date"
+                }
+              }
+            }
+          },
+          "projects": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "url": {
+                  "type": "string"
+                },
+                "summaries": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "text": {
+                        "type": "string"
+                      },
+                      "technologies": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "JobOffer": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "technologies": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "requirements": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "responsibilities": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "SkillResult": {
+        "type": "object",
+        "properties": {
+          "hard_skills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "score"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          },
+          "soft_skills": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "score"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          },
+          "tools": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": [
+                "name",
+                "score"
+              ],
+              "properties": {
+                "name": {
+                  "type": "string"
+                },
+                "score": {
+                  "type": "number",
+                  "format": "float"
+                }
+              }
+            }
+          }
+        }
+      },
+      "SkillItem": {
+        "type": "object",
+        "required": [
+          "name",
+          "score"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "score": {
+            "type": "number",
+            "format": "float"
+          }
+        }
+      },
+      "Error": {
+        "type": "object",
+        "required": [
+          "detail"
+        ],
+        "properties": {
+          "detail": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

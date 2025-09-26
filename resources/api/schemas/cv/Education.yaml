@@ -1,0 +1,14 @@
+type: object
+properties:
+  school:
+    type: string
+  degree:
+    type: string
+  field_of_study:
+    type: string
+  start_date:
+    type: string
+    format: date
+  end_date:
+    type: string
+    format: date
