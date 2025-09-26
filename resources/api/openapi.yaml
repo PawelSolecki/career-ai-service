@@ -1,0 +1,62 @@
+openapi: 3.0.3
+info:
+  title: Career AI Service
+  description: API for analyzing job offers and extracting skill requirements
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:8000
+    description: Development server
+
+paths:
+  /:
+    get:
+      summary: Root endpoint
+      responses:
+        "200":
+          description: Service information
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  version:
+                    type: string
+
+  /health:
+    get:
+      summary: Health check
+      responses:
+        "200":
+          description: Service status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+
+  /api/v1/analyze-cv:
+    $ref: "./paths/cv/analyze-cv.yaml"
+
+  /api/v1/generate-bio:
+    $ref: "./paths/cv/generate-bio.yaml"
+
+  /api/v1/analyze-offer:
+    $ref: "./paths/offer/analyze-offer.yaml"
+
+components:
+  schemas:
+    UserCV:
+      $ref: "./schemas/cv/UserCV.yaml"
+    JobOffer:
+      $ref: "./schemas/offer/JobOffer.yaml"
+    SkillResult:
+      $ref: "./schemas/offer/SkillResult.yaml"
+    SkillItem:
+      $ref: "./schemas/offer/SkillItem.yaml"
+    Error:
+      $ref: "./schemas/Error.yaml"

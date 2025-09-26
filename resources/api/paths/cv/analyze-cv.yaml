@@ -1,0 +1,46 @@
+post:
+  summary: Analyze CV
+  description: Analyzes a user's CV and enhances it with skill matching
+  parameters:
+    - name: alpha
+      in: query
+      schema:
+        type: number
+        format: float
+        default: 1.0
+    - name: top_k
+      in: query
+      schema:
+        type: integer
+        default: 5
+    - name: min_score
+      in: query
+      schema:
+        type: number
+        format: float
+        default: 0.1
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: "../../schemas/cv/UserCV.yaml"
+  responses:
+    "200":
+      description: Successfully analyzed CV
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/cv/UserCV.yaml"
+    "400":
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"
+    "500":
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"
