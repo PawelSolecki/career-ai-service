@@ -1,0 +1,8 @@
+type: object
+properties:
+  text:
+    type: string
+  technologies:
+    type: array
+    items:
+      type: string
