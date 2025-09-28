@@ -62,13 +62,8 @@ app.add_middleware(
 )
 
 # Include routers
-app.include_router(offer_router, prefix="/api/v1", tags=["Job Offer Analysis"])
-app.include_router(cv_router, prefix="/api/v1", tags=["CV Analysis"])
-
-
-@app.get("/")
-async def root():
-    return {"message": "Career AI Service is running", "version": "1.0.0"}
+app.include_router(offer_router, prefix="/api/v1/offer", tags=["Job Offer Analysis"])
+app.include_router(cv_router, prefix="/api/v1/cv", tags=["CV Analysis"])
 
 
 @app.get("/health")
@@ -79,4 +74,4 @@ async def health_check():
 if __name__ == "__main__":
     import uvicorn
 
-    uvicorn.run(app, host="0.0.0.0", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8082)

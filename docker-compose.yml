@@ -14,7 +14,7 @@ services:
     build: .
     container_name: career-ai-service
     ports:
-      - "8000:8000"
+      - "8082:8082"
 
 volumes:
   ollama:
