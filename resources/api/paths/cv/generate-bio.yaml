@@ -1,0 +1,42 @@
+post:
+  summary: Generate bio
+  description: Generates personalized bio based on CV, skills, and job offer
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          required:
+            - user_cv
+            - skill_result
+            - job_offer
+          properties:
+            user_cv:
+              $ref: "../../schemas/cv/UserCV.yaml"
+            skill_result:
+              $ref: "../../schemas/offer/SkillResult.yaml"
+            job_offer:
+              $ref: "../../schemas/offer/JobOffer.yaml"
+  responses:
+    "200":
+      description: Successfully generated bio
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              bio:
+                type: string
+    "400":
+      description: Invalid input
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"
+    "500":
+      description: Server error
+      content:
+        application/json:
+          schema:
+            $ref: "../../schemas/Error.yaml"

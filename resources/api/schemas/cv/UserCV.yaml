@@ -1,0 +1,30 @@
+type: object
+required:
+  - personal_info
+properties:
+  personal_info:
+    $ref: "./PersonalInfo.yaml"
+  skills:
+    type: array
+    items:
+      type: string
+  experience:
+    type: array
+    items:
+      $ref: "./Experience.yaml"
+  education:
+    type: array
+    items:
+      $ref: "./Education.yaml"
+  languages:
+    type: array
+    items:
+      $ref: "./Language.yaml"
+  certifications:
+    type: array
+    items:
+      $ref: "./Certification.yaml"
+  projects:
+    type: array
+    items:
+      $ref: "./Project.yaml"
