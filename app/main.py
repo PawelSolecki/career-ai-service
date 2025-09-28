@@ -23,9 +23,10 @@ app.include_router(offer_router, prefix="/api/v1/offer", tags=["Job Offer Analys
 app.include_router(cv_router, prefix="/api/v1/cv", tags=["CV Analysis"])
 
 
-@app.get("/")
-async def root():
-    return {"message": "Career AI Service is running", "version": "1.0.0"}
+@app.get("/health")
+async def health_check():
+    return {"status": "healthy"}
+
 
 if __name__ == "__main__":
     import uvicorn
