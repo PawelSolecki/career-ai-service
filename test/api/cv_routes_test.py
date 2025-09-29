@@ -56,3 +56,87 @@ def test_analyze_cv_internal_error(monkeypatch):
 
     assert response.status_code == 500
     assert response.json()["detail"].startswith("Error analyzing CV")
+
+
+def test_generate_bio_success(mock_cv_service):
+    # Test data
+    payload = {
+        "user_cv": {
+            "personal_info": {
+                "first_name": "Jan",
+                "last_name": "Kowalski",
+                "role": "Senior Python Developer",
+                "summary": "Experienced Python developer",
+            },
+            "experience": [
+                {
+                    "position": "Senior Developer",
+                    "company": "Tech Corp",
+                    "summaries": [
+                        {
+                            "text": "Led development team",
+                            "technologies": ["Python", "Django"],
+                        }
+                    ],
+                }
+            ],
+            "skills": ["Python", "Django", "FastAPI"],
+            "projects": [
+                {
+                    "name": "API Project",
+                    "summaries": [
+                        {
+                            "text": "Developed REST API",
+                            "technologies": ["FastAPI", "Python"],
+                        }
+                    ],
+                }
+            ],
+        },
+        "skill_result": {
+            "hard_skills": [{"name": "Python", "score": 0.9}],
+            "soft_skills": [{"name": "Communication", "score": 0.8}],
+            "tools": [{"name": "Git", "score": 0.7}],
+        },
+        "job_offer": {
+            "description": "Python Developer position",
+            "technologies": ["Python", "Django"],
+            "requirements": ["5+ years experience"],
+            "responsibilities": ["Develop web applications"],
+        },
+    }
+
+    # Mock the service response
+    mock_cv_service.generate_bio.return_value = "Generated bio text"
+
+    response = client.post("/api/v1/cv/generate-bio", json=payload)
+
+    assert response.status_code == 200
+    assert response.json() == {"bio": "Generated bio text"}
+    mock_cv_service.generate_bio.assert_called_once()
+
+
+def test_generate_bio_internal_error(monkeypatch):
+    def broken_generate_bio(*args, **kwargs):
+        raise RuntimeError("Bio generation failed")
+
+    monkeypatch.setattr(
+        "app.api.cv_routes.cv_service.generate_bio", broken_generate_bio
+    )
+
+    # Minimal valid payload
+    payload = {
+        "user_cv": {"personal_info": {"first_name": "Jan", "last_name": "Kowalski"}},
+        "skill_result": {"hard_skills": [], "soft_skills": [], "tools": []},
+        "job_offer": {
+            "description": "Test",
+            "technologies": [],
+            "requirements": [],
+            "responsibilities": [],
+        },
+    }
+
+    response = client.post("/api/v1/cv/generate-bio", json=payload)
+
+    assert response.status_code == 500
+    assert "Error generating bio" in response.json()["detail"]
