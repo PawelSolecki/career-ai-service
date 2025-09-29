@@ -35,7 +35,7 @@ class CVService:
         Returns:
             CV with detected technologies in Summary.technologies
         """
-        enhanced_cv = cv.copy(deep=True)
+        enhanced_cv = cv.model_copy(deep=True)
 
         # Analyze summaries in experiences
         if enhanced_cv.experience:
@@ -85,10 +85,10 @@ class CVService:
                 "first_name": getattr(personal_info, "first_name", ""),
                 "last_name": getattr(personal_info, "last_name", ""),
             },
+            "role": getattr(personal_info, "summary", "") or "",
+            "experience_years": 0,
             "skills": [
-                {
-                    "name": skill,
-                }
+                {"name": skill, "level": "", "years_of_experience": 0}
                 for skill in (user_cv.skills or [])
             ],
         }
