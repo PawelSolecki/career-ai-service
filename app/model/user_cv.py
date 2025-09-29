@@ -1,4 +1,4 @@
-from pydantic import BaseModel, EmailStr, validator
+from pydantic import BaseModel, EmailStr, field_validator, ConfigDict
 from typing import List, Optional
 from datetime import date as Date
 from enum import Enum
@@ -26,8 +26,9 @@ class UserCV(BaseModel):
         website: Optional[str] = None
         other: Optional[str] = None
 
-        @validator("first_name", "last_name")
-        def validate_required_fields(cls, v):
+        @field_validator("first_name", "last_name")
+        @classmethod
+        def validate_required_fields(cls, v: str) -> str:
             if not v or not v.strip():
                 raise ValueError("Field is required")
             return v
@@ -44,6 +45,8 @@ class UserCV(BaseModel):
         start_date: Optional[Date] = None
         end_date: Optional[Date] = None
         summaries: Optional[List["UserCV.Summary"]] = None
+
+        model_config = ConfigDict(arbitrary_types_allowed=True)
 
     class Education(BaseModel):
         school: Optional[str] = None
@@ -66,6 +69,8 @@ class UserCV(BaseModel):
         url: Optional[str] = None
         summaries: Optional[List["UserCV.Summary"]] = None
 
+        model_config = ConfigDict(arbitrary_types_allowed=True)
+
     personal_info: PersonalInfo
     skills: Optional[List[str]] = None
     experience: Optional[List[Experience]] = None
@@ -74,12 +79,15 @@ class UserCV(BaseModel):
     certifications: Optional[List[Certification]] = None
     projects: Optional[List[Project]] = None
 
-    @validator("personal_info")
-    def validate_personal_info(cls, v):
+    @field_validator("personal_info")
+    @classmethod
+    def validate_personal_info(cls, v: PersonalInfo) -> PersonalInfo:
         if v is None:
             raise ValueError("Personal info is required")
         return v
 
+    model_config = ConfigDict(arbitrary_types_allowed=True)
 
-UserCV.Experience.update_forward_refs()
-UserCV.Project.update_forward_refs()
+
+# Initialize models with circular references
+UserCV.model_rebuild()

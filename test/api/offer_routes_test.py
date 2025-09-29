@@ -70,7 +70,6 @@ def test_analyze_job_offer_success(mock_offer_analyzer, sample_job_offer):
 def test_analyze_job_offer_with_max_results_parameter(
     mock_offer_analyzer, sample_job_offer
 ):
-
     response = client.post(
         "/api/v1/offer/analyze-offer?max_results_per_category=5", json=sample_job_offer
     )
@@ -117,7 +116,6 @@ def test_analyze_job_offer_null_fields(mock_offer_analyzer):
 
 
 def test_analyze_job_offer_internal_error(monkeypatch, sample_job_offer):
-
     def broken_analyze_job_offer(*args, **kwargs):
         raise RuntimeError("Analysis failed")
 

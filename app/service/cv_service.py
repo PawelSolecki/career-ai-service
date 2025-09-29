@@ -10,6 +10,7 @@ PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "prompt.j
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "gemma3:4b"
 
+
 class CVService:
     def __init__(self):
         self.text_analyzer = TextAnalyzer()
@@ -34,7 +35,7 @@ class CVService:
         Returns:
             CV with detected technologies in Summary.technologies
         """
-        enhanced_cv = cv.copy(deep=True)
+        enhanced_cv = cv.model_copy(deep=True)
 
         # Analyze summaries in experiences
         if enhanced_cv.experience:
@@ -85,16 +86,10 @@ class CVService:
                 "last_name": getattr(personal_info, "last_name", ""),
             },
             "role": getattr(personal_info, "summary", "") or "",
-            "experience_years": max(
-                [s.years_of_experience or 0 for s in (user_cv.skills or [])], default=0
-            ),
+            "experience_years": 0,
             "skills": [
-                {
-                    "name": s.name or "",
-                    "level": s.level.value if s.level else "",
-                    "years_of_experience": s.years_of_experience or 0,
-                }
-                for s in (user_cv.skills or [])
+                {"name": skill, "level": "", "years_of_experience": 0}
+                for skill in (user_cv.skills or [])
             ],
         }
 
@@ -114,7 +109,9 @@ class CVService:
             "soft_skills": [
                 [skill.name, skill.score] for skill in (skill_result.soft_skills or [])
             ],
-            "tools": [[skill.name, skill.score] for skill in (skill_result.tools or [])],
+            "tools": [
+                [skill.name, skill.score] for skill in (skill_result.tools or [])
+            ],
         }
 
         llama_payload = {
@@ -135,7 +132,6 @@ class CVService:
         result = response.json()
         bio = result.get("response", "")
         return bio
-
 
     def _analyze_summary(
         self, summary: UserCV.Summary, alpha: float, top_k: int, min_score: float
