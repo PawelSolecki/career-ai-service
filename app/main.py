@@ -55,7 +55,7 @@ if openapi_spec:
 # Configure CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=["http://localhost:8080"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -64,6 +64,11 @@ app.add_middleware(
 # Include routers
 app.include_router(offer_router, prefix="/api/v1/offer", tags=["Job Offer Analysis"])
 app.include_router(cv_router, prefix="/api/v1/cv", tags=["CV Analysis"])
+
+
+@app.get("/openapi.json")
+async def get_openapi():
+    return app.openapi()
 
 
 @app.get("/health")
