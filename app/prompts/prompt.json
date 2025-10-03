@@ -3,19 +3,11 @@
     "task": "Generate a short professional bio for a candidate tailored to a specific job offer.",
     "input_format": {
       "UserCV": {
-        "personal_info": {
-          "first_name": "string",
-          "last_name": "string"
-        },
-        "role": "string",
-        "experience_years": "number",
-        "skills": [
-          {
-            "name": "string",
-            "level": "string (JUNIOR | MID | SENIOR | LEAD)",
-            "years_of_experience": "number"
-          }
-        ]
+        "personalInfo": {
+          "firstName": "string",
+          "lastName": "string",
+          "role": "string"
+        }
       },
       "JobOffer": {
         "description": "string",
