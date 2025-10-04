@@ -39,13 +39,13 @@ paths:
                   status:
                     type: string
 
-  /api/v1/analyze-cv:
+  /api/v1/cv/analyze-cv:
     $ref: "./paths/cv/analyze-cv.yaml"
 
-  /api/v1/generate-bio:
+  /api/v1/cv/generate-bio:
     $ref: "./paths/cv/generate-bio.yaml"
 
-  /api/v1/analyze-offer:
+  /api/v1/offer/analyze-offer:
     $ref: "./paths/offer/analyze-offer.yaml"
 
 components:
