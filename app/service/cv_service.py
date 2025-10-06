@@ -5,6 +5,7 @@ from app.model.job_offer import JobOffer
 import json
 import requests
 import os
+from fastapi import HTTPException
 
 PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "prompt.json")
 OLLAMA_URL = "http://ollama:11434/api/generate"
@@ -75,62 +76,89 @@ class CVService:
         Returns:
             str: Generated bio text.
         """
-        # Load prompt template
-        with open(prompt_path, "r", encoding="utf-8") as f:
-            prompt_data = json.load(f)
+        try:
+            # Load prompt template
+            with open(prompt_path, "r", encoding="utf-8") as f:
+                prompt_data = json.load(f)
 
-        # Prepare UserCV data for Llama
-        personal_info = user_cv.personal_info or {}
-        usercv_payload = {
-            "personal_info": {
-                "first_name": getattr(personal_info, "first_name", ""),
-                "last_name": getattr(personal_info, "last_name", ""),
+            # Prepare UserCV data for Llama
+            personal_info = user_cv.personal_info or {}
+            usercv_payload = {
+                "personal_info": {
+                    "first_name": getattr(personal_info, "first_name", ""),
+                    "last_name": getattr(personal_info, "last_name", ""),
+                },
                 "role": getattr(personal_info, "summary", "") or "",
-            },
-        }
+                "experience_years": 0,
+                "skills": [
+                    {"name": skill, "level": "", "years_of_experience": 0}
+                    for skill in (user_cv.skills or [])
+                ],
+            }
 
-        # Prepare JobOffer data for Llama
-        job_offer_payload = {
-            "description": job_offer.description or "",
-            "technologies": job_offer.technologies or [],
-            "requirements": job_offer.requirements or [],
-            "responsibilities": job_offer.responsibilities or [],
-        }
+            # Prepare JobOffer data for Llama
+            job_offer_payload = {
+                "description": job_offer.description or "",
+                "technologies": job_offer.technologies or [],
+                "requirements": job_offer.requirements or [],
+                "responsibilities": job_offer.responsibilities or [],
+            }
 
-        # Prepare SkillResult data for Llama
-        skill_result_payload = {
-            "hard_skills": [
-                [skill.name, skill.score]
-                for skill in (skill_result.hard_skills or [])[:3]
-            ],
-            "soft_skills": [
-                [skill.name, skill.score]
-                for skill in (skill_result.soft_skills or [])[:3]
-            ],
-            "tools": [
-                [skill.name, skill.score] for skill in (skill_result.tools or [])[:3]
-            ],
-        }
+            # Prepare SkillResult data for Llama
+            skill_result_payload = {
+                "hard_skills": [
+                    [skill.name, skill.score]
+                    for skill in (skill_result.hard_skills or [])
+                ],
+                "soft_skills": [
+                    [skill.name, skill.score]
+                    for skill in (skill_result.soft_skills or [])
+                ],
+                "tools": [
+                    [skill.name, skill.score] for skill in (skill_result.tools or [])
+                ],
+            }
 
-        llama_payload = {
-            "instructions": prompt_data.get("instructions", {}),
-            "UserCV": usercv_payload,
-            "JobOffer": job_offer_payload,
-            "SkillResult": skill_result_payload,
-            "language": language,
-        }
+            llama_payload = {
+                "instructions": prompt_data.get("instructions", {}),
+                "UserCV": usercv_payload,
+                "JobOffer": job_offer_payload,
+                "SkillResult": skill_result_payload,
+            }
 
-        # Send request to locally hosted Llama server
-        payload = {
-            "model": OLLAMA_MODEL,
-            "prompt": json.dumps(llama_payload),
-            "stream": False,
-        }
-        response = requests.post(llama_url, json=payload, timeout=300)
-        response.raise_for_status()
-        result = response.json()
-        bio = result.get("response", "")
-        return bio
+            # Send request to locally hosted Llama server
+            payload = {
+                "model": OLLAMA_MODEL,
+                "prompt": json.dumps(llama_payload),
+                "stream": False,
+            }
+
+            print(payload)
+            response = requests.post(llama_url, json=payload, timeout=300)
+            response.raise_for_status()
+            result = response.json()
+            print("response", response)
+            print("result", result)
+            bio = result.get("response", "")
+
+            if not bio:
+                raise ValueError("Empty response from Ollama service")
+
+            return bio
+        except requests.Timeout:
+            raise HTTPException(
+                status_code=504,
+                detail="Request to Ollama service timed out. Please try again later.",
+            )
+        except requests.ConnectionError:
+            raise HTTPException(
+                status_code=503,
+                detail="Could not connect to Ollama service. Service might be unavailable.",
+            )
+        except Exception as e:
+            raise HTTPException(
+                status_code=500, detail=f"Error generating bio: {str(e)}"
+            )
 
     def _analyze_summary(
         self, summary: UserCV.Summary, alpha: float, top_k: int, min_score: float
