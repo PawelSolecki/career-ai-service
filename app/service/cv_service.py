@@ -61,6 +61,7 @@ class CVService:
         job_offer: JobOffer,
         prompt_path: str = PROMPT_PATH,
         llama_url: str = OLLAMA_URL,
+        language: str = "en",
     ) -> str:
         """
         Generate a professional bio for a candidate tailored to a specific job offer using Llama.

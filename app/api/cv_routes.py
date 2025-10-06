@@ -1,8 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from app.model.user_cv import UserCV
-from app.model.job_offer import JobOffer
-from app.model.skill_result import SkillResult
 from app.service.cv_service import CVService
+from app.model.generate_bio_request import GenerateBioRequest
 
 router = APIRouter()
 
@@ -27,13 +26,14 @@ async def analyze_cv_endpoint(
 
 
 @router.post("/generate-bio")
-async def generate_bio_endpoint(
-    user_cv: UserCV,
-    skill_result: SkillResult,
-    job_offer: JobOffer,
-):
+async def generate_bio_endpoint(request: GenerateBioRequest):
     try:
-        bio = cv_service.generate_bio(user_cv, skill_result, job_offer)
+        bio = cv_service.generate_bio(
+            request.user_cv,
+            request.skill_result,
+            request.job_offer,
+            language=request.language,
+        )
         return {"bio": bio}
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Error generating bio: {str(e)}")

@@ -3,19 +3,11 @@
     "task": "Generate a short professional bio for a candidate tailored to a specific job offer.",
     "input_format": {
       "UserCV": {
-        "personal_info": {
-          "first_name": "string",
-          "last_name": "string"
-        },
-        "role": "string",
-        "experience_years": "number",
-        "skills": [
-          {
-            "name": "string",
-            "level": "string (JUNIOR | MID | SENIOR | LEAD)",
-            "years_of_experience": "number"
-          }
-        ]
+        "personalInfo": {
+          "firstName": "string",
+          "lastName": "string",
+          "role": "string"
+        }
       },
       "JobOffer": {
         "description": "string",
@@ -34,7 +26,7 @@
       "instructions": "Return only the bio as plain text. Do not use code blocks, JSON formatting, or any extra characters. Do not wrap the output in triple backticks or any other formatting."
     },
     "style": {
-      "language": "polish",
+      "language": "$language",
       "person": "first",
       "length_sentences": "4-6",
       "tone": "professional, concise",
@@ -57,7 +49,8 @@
       ]
     },
     "template": {
-      "polish": "Jestem [role] z ponad [X lat] doświadczenia w [obszar]. Specjalizuję się w technologiach takich jak [TOP 3-5 hard skills]. Mam doświadczenie w projektach obejmujących [rodzaje projektów/odpowiedzialności]. W pracy cenię [TOP 2 soft skills]. Dbam o [quality/scalability/security – z oferty]. Obecnie rozwijam się w kierunku [obszar rozwoju z oferty]."
+      "pl": "Jestem [role] z doświadczeniem w [obszar]. Specjalizuję się głównie w [TOP 3 hard skills]. Biegle posługuję się narzędziami takimi jak [TOP 3 tools]. W pracy szczególnie cenię [TOP 3 soft skills]. Dbam o [quality/scalability/security – z oferty]. Obecnie rozwijam się w kierunku [obszar rozwoju z oferty].",
+      "en": "I am a [role] with experience in [area]. I primarily specialize in [TOP 3 hard skills]. I am proficient with tools such as [TOP 3 tools]. In my work, I particularly value [TOP 3 soft skills]. I focus on [quality/scalability/security - from offer]. Currently, I am developing in the direction of [development area from offer]."
     }
   }
 }
