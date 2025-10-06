@@ -7,7 +7,7 @@ import requests
 import os
 
 PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "prompt.json")
-OLLAMA_URL = "http://localhost:11434/api/generate"
+OLLAMA_URL = "http://ollama:11434/api/generate"
 OLLAMA_MODEL = "gemma3:4b"
 
 
@@ -60,6 +60,7 @@ class CVService:
         job_offer: JobOffer,
         prompt_path: str = PROMPT_PATH,
         llama_url: str = OLLAMA_URL,
+        language: str = "en",
     ) -> str:
         """
         Generate a professional bio for a candidate tailored to a specific job offer using Llama.
@@ -84,13 +85,8 @@ class CVService:
             "personal_info": {
                 "first_name": getattr(personal_info, "first_name", ""),
                 "last_name": getattr(personal_info, "last_name", ""),
+                "role": getattr(personal_info, "summary", "") or "",
             },
-            "role": getattr(personal_info, "summary", "") or "",
-            "experience_years": 0,
-            "skills": [
-                {"name": skill, "level": "", "years_of_experience": 0}
-                for skill in (user_cv.skills or [])
-            ],
         }
 
         # Prepare JobOffer data for Llama
@@ -104,13 +100,15 @@ class CVService:
         # Prepare SkillResult data for Llama
         skill_result_payload = {
             "hard_skills": [
-                [skill.name, skill.score] for skill in (skill_result.hard_skills or [])
+                [skill.name, skill.score]
+                for skill in (skill_result.hard_skills or [])[:3]
             ],
             "soft_skills": [
-                [skill.name, skill.score] for skill in (skill_result.soft_skills or [])
+                [skill.name, skill.score]
+                for skill in (skill_result.soft_skills or [])[:3]
             ],
             "tools": [
-                [skill.name, skill.score] for skill in (skill_result.tools or [])
+                [skill.name, skill.score] for skill in (skill_result.tools or [])[:3]
             ],
         }
 
@@ -119,6 +117,7 @@ class CVService:
             "UserCV": usercv_payload,
             "JobOffer": job_offer_payload,
             "SkillResult": skill_result_payload,
+            "language": language,
         }
 
         # Send request to locally hosted Llama server
@@ -127,7 +126,7 @@ class CVService:
             "prompt": json.dumps(llama_payload),
             "stream": False,
         }
-        response = requests.post(llama_url, json=payload, timeout=60)
+        response = requests.post(llama_url, json=payload, timeout=300)
         response.raise_for_status()
         result = response.json()
         bio = result.get("response", "")
