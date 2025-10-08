@@ -35,7 +35,7 @@ paths:
                 properties:
                   status:
                     type: string
-  /api/v1/analyze-cv:
+  /api/v1/cv/analyze-cv:
     post:
       summary: Analyze CV
       description: Analyzes a user's CV and enhances it with skill matching
@@ -350,7 +350,7 @@ paths:
                 properties:
                   detail:
                     type: string
-  /api/v1/generate-bio:
+  /api/v1/cv/generate-bio:
     post:
       summary: Generate bio
       description: Generates personalized bio based on CV, skills, and job offer
@@ -587,7 +587,7 @@ paths:
                 properties:
                   detail:
                     type: string
-  /api/v1/analyze-offer:
+  /api/v1/offer/analyze-offer:
     post:
       summary: Analyze job offer
       description: Analyzes a job offer and extracts skill requirements

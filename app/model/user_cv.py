@@ -15,18 +15,18 @@ class LanguageLevel(str, Enum):
 
 class UserCV(BaseModel):
     class PersonalInfo(BaseModel):
-        first_name: str
-        last_name: str
+        firstName: str
+        lastName: str
         email: Optional[EmailStr] = None
         phone: Optional[str] = None
         role: Optional[str] = None
         summary: Optional[str] = None
-        linked_in: Optional[str] = None
+        linkedIn: Optional[str] = None
         github: Optional[str] = None
         website: Optional[str] = None
         other: Optional[str] = None
 
-        @field_validator("first_name", "last_name")
+        @field_validator("firstName", "lastName")
         @classmethod
         def validate_required_fields(cls, v: str) -> str:
             if not v or not v.strip():
@@ -42,8 +42,8 @@ class UserCV(BaseModel):
         company: Optional[str] = None
         url: Optional[str] = None
         location: Optional[str] = None
-        start_date: Optional[Date] = None
-        end_date: Optional[Date] = None
+        startDate: Optional[Date] = None
+        endDate: Optional[Date] = None
         summaries: Optional[List["UserCV.Summary"]] = None
 
         model_config = ConfigDict(arbitrary_types_allowed=True)
@@ -51,9 +51,9 @@ class UserCV(BaseModel):
     class Education(BaseModel):
         school: Optional[str] = None
         degree: Optional[str] = None
-        field_of_study: Optional[str] = None
-        start_date: Optional[Date] = None
-        end_date: Optional[Date] = None
+        fieldOfStudy: Optional[str] = None
+        startDate: Optional[Date] = None
+        endDate: Optional[Date] = None
 
     class Language(BaseModel):
         language: Optional[str] = None
@@ -71,7 +71,7 @@ class UserCV(BaseModel):
 
         model_config = ConfigDict(arbitrary_types_allowed=True)
 
-    personal_info: PersonalInfo
+    personalInfo: PersonalInfo
     skills: Optional[List[str]] = None
     experience: Optional[List[Experience]] = None
     education: Optional[List[Education]] = None
@@ -79,7 +79,7 @@ class UserCV(BaseModel):
     certifications: Optional[List[Certification]] = None
     projects: Optional[List[Project]] = None
 
-    @field_validator("personal_info")
+    @field_validator("personalInfo")
     @classmethod
     def validate_personal_info(cls, v: PersonalInfo) -> PersonalInfo:
         if v is None:

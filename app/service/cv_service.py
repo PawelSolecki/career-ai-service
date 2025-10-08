@@ -9,6 +9,7 @@ from fastapi import HTTPException
 
 PROMPT_PATH = os.path.join(os.path.dirname(__file__), "..", "prompts", "prompt.json")
 OLLAMA_URL = "http://ollama:11434/api/generate"
+# OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "gemma3:4b"
 
 
