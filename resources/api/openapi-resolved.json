@@ -98,20 +98,20 @@
               "schema": {
                 "type": "object",
                 "required": [
-                  "personal_info"
+                  "personalInfo"
                 ],
                 "properties": {
-                  "personal_info": {
+                  "personalInfo": {
                     "type": "object",
                     "required": [
-                      "first_name",
-                      "last_name"
+                      "firstName",
+                      "lastName"
                     ],
                     "properties": {
-                      "first_name": {
+                      "firstName": {
                         "type": "string"
                       },
-                      "last_name": {
+                      "lastName": {
                         "type": "string"
                       },
                       "email": {
@@ -127,7 +127,7 @@
                       "summary": {
                         "type": "string"
                       },
-                      "linked_in": {
+                      "linkedIn": {
                         "type": "string"
                       },
                       "github": {
@@ -164,11 +164,11 @@
                         "location": {
                           "type": "string"
                         },
-                        "start_date": {
+                        "startDate": {
                           "type": "string",
                           "format": "date"
                         },
-                        "end_date": {
+                        "endDate": {
                           "type": "string",
                           "format": "date"
                         },
@@ -203,14 +203,14 @@
                         "degree": {
                           "type": "string"
                         },
-                        "field_of_study": {
+                        "fieldOfStudy": {
                           "type": "string"
                         },
-                        "start_date": {
+                        "startDate": {
                           "type": "string",
                           "format": "date"
                         },
-                        "end_date": {
+                        "endDate": {
                           "type": "string",
                           "format": "date"
                         }
@@ -301,20 +301,20 @@
                 "schema": {
                   "type": "object",
                   "required": [
-                    "personal_info"
+                    "personalInfo"
                   ],
                   "properties": {
-                    "personal_info": {
+                    "personalInfo": {
                       "type": "object",
                       "required": [
-                        "first_name",
-                        "last_name"
+                        "firstName",
+                        "lastName"
                       ],
                       "properties": {
-                        "first_name": {
+                        "firstName": {
                           "type": "string"
                         },
-                        "last_name": {
+                        "lastName": {
                           "type": "string"
                         },
                         "email": {
@@ -330,7 +330,7 @@
                         "summary": {
                           "type": "string"
                         },
-                        "linked_in": {
+                        "linkedIn": {
                           "type": "string"
                         },
                         "github": {
@@ -367,11 +367,11 @@
                           "location": {
                             "type": "string"
                           },
-                          "start_date": {
+                          "startDate": {
                             "type": "string",
                             "format": "date"
                           },
-                          "end_date": {
+                          "endDate": {
                             "type": "string",
                             "format": "date"
                           },
@@ -406,14 +406,14 @@
                           "degree": {
                             "type": "string"
                           },
-                          "field_of_study": {
+                          "fieldOfStudy": {
                             "type": "string"
                           },
-                          "start_date": {
+                          "startDate": {
                             "type": "string",
                             "format": "date"
                           },
-                          "end_date": {
+                          "endDate": {
                             "type": "string",
                             "format": "date"
                           }
@@ -554,20 +554,20 @@
                   "user_cv": {
                     "type": "object",
                     "required": [
-                      "personal_info"
+                      "personalInfo"
                     ],
                     "properties": {
-                      "personal_info": {
+                      "personalInfo": {
                         "type": "object",
                         "required": [
-                          "first_name",
-                          "last_name"
+                          "firstName",
+                          "lastName"
                         ],
                         "properties": {
-                          "first_name": {
+                          "firstName": {
                             "type": "string"
                           },
-                          "last_name": {
+                          "lastName": {
                             "type": "string"
                           },
                           "email": {
@@ -583,7 +583,7 @@
                           "summary": {
                             "type": "string"
                           },
-                          "linked_in": {
+                          "linkedIn": {
                             "type": "string"
                           },
                           "github": {
@@ -620,11 +620,11 @@
                             "location": {
                               "type": "string"
                             },
-                            "start_date": {
+                            "startDate": {
                               "type": "string",
                               "format": "date"
                             },
-                            "end_date": {
+                            "endDate": {
                               "type": "string",
                               "format": "date"
                             },
@@ -659,14 +659,14 @@
                             "degree": {
                               "type": "string"
                             },
-                            "field_of_study": {
+                            "fieldOfStudy": {
                               "type": "string"
                             },
-                            "start_date": {
+                            "startDate": {
                               "type": "string",
                               "format": "date"
                             },
-                            "end_date": {
+                            "endDate": {
                               "type": "string",
                               "format": "date"
                             }
@@ -749,7 +749,7 @@
                   "skill_result": {
                     "type": "object",
                     "properties": {
-                      "hard_skills": {
+                      "hardSkills": {
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -768,7 +768,7 @@
                           }
                         }
                       },
-                      "soft_skills": {
+                      "softSkills": {
                         "type": "array",
                         "items": {
                           "type": "object",
@@ -949,7 +949,7 @@
                 "schema": {
                   "type": "object",
                   "properties": {
-                    "hard_skills": {
+                    "hardSkills": {
                       "type": "array",
                       "items": {
                         "type": "object",
@@ -968,7 +968,7 @@
                         }
                       }
                     },
-                    "soft_skills": {
+                    "softSkills": {
                       "type": "array",
                       "items": {
                         "type": "object",
@@ -1056,20 +1056,20 @@
       "UserCV": {
         "type": "object",
         "required": [
-          "personal_info"
+          "personalInfo"
         ],
         "properties": {
-          "personal_info": {
+          "personalInfo": {
             "type": "object",
             "required": [
-              "first_name",
-              "last_name"
+              "firstName",
+              "lastName"
             ],
             "properties": {
-              "first_name": {
+              "firstName": {
                 "type": "string"
               },
-              "last_name": {
+              "lastName": {
                 "type": "string"
               },
               "email": {
@@ -1085,7 +1085,7 @@
               "summary": {
                 "type": "string"
               },
-              "linked_in": {
+              "linkedIn": {
                 "type": "string"
               },
               "github": {
@@ -1122,11 +1122,11 @@
                 "location": {
                   "type": "string"
                 },
-                "start_date": {
+                "startDate": {
                   "type": "string",
                   "format": "date"
                 },
-                "end_date": {
+                "endDate": {
                   "type": "string",
                   "format": "date"
                 },
@@ -1161,14 +1161,14 @@
                 "degree": {
                   "type": "string"
                 },
-                "field_of_study": {
+                "fieldOfStudy": {
                   "type": "string"
                 },
-                "start_date": {
+                "startDate": {
                   "type": "string",
                   "format": "date"
                 },
-                "end_date": {
+                "endDate": {
                   "type": "string",
                   "format": "date"
                 }
@@ -1277,7 +1277,7 @@
       "SkillResult": {
         "type": "object",
         "properties": {
-          "hard_skills": {
+          "hardSkills": {
             "type": "array",
             "items": {
               "type": "object",
@@ -1296,7 +1296,7 @@
               }
             }
           },
-          "soft_skills": {
+          "softSkills": {
             "type": "array",
             "items": {
               "type": "object",

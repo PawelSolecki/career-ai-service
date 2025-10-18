@@ -4,11 +4,11 @@ properties:
     type: string
   degree:
     type: string
-  field_of_study:
+  fieldOfStudy:
     type: string
-  start_date:
+  startDate:
     type: string
     format: date
-  end_date:
+  endDate:
     type: string
     format: date

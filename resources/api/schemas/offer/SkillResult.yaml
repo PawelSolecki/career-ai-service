@@ -1,10 +1,10 @@
 type: object
 properties:
-  hard_skills:
+  hardSkills:
     type: array
     items:
       $ref: "./SkillItem.yaml"
-  soft_skills:
+  softSkills:
     type: array
     items:
       $ref: "./SkillItem.yaml"

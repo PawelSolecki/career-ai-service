@@ -64,17 +64,17 @@ paths:
             schema:
               type: object
               required:
-              - personal_info
+              - personalInfo
               properties:
-                personal_info:
+                personalInfo:
                   type: object
                   required:
-                  - first_name
-                  - last_name
+                  - firstName
+                  - lastName
                   properties:
-                    first_name:
+                    firstName:
                       type: string
-                    last_name:
+                    lastName:
                       type: string
                     email:
                       type: string
@@ -85,7 +85,7 @@ paths:
                       type: string
                     summary:
                       type: string
-                    linked_in:
+                    linkedIn:
                       type: string
                     github:
                       type: string
@@ -110,10 +110,10 @@ paths:
                         type: string
                       location:
                         type: string
-                      start_date:
+                      startDate:
                         type: string
                         format: date
-                      end_date:
+                      endDate:
                         type: string
                         format: date
                       summaries:
@@ -136,12 +136,12 @@ paths:
                         type: string
                       degree:
                         type: string
-                      field_of_study:
+                      fieldOfStudy:
                         type: string
-                      start_date:
+                      startDate:
                         type: string
                         format: date
-                      end_date:
+                      endDate:
                         type: string
                         format: date
                 languages:
@@ -200,17 +200,17 @@ paths:
               schema:
                 type: object
                 required:
-                - personal_info
+                - personalInfo
                 properties:
-                  personal_info:
+                  personalInfo:
                     type: object
                     required:
-                    - first_name
-                    - last_name
+                    - firstName
+                    - lastName
                     properties:
-                      first_name:
+                      firstName:
                         type: string
-                      last_name:
+                      lastName:
                         type: string
                       email:
                         type: string
@@ -221,7 +221,7 @@ paths:
                         type: string
                       summary:
                         type: string
-                      linked_in:
+                      linkedIn:
                         type: string
                       github:
                         type: string
@@ -246,10 +246,10 @@ paths:
                           type: string
                         location:
                           type: string
-                        start_date:
+                        startDate:
                           type: string
                           format: date
-                        end_date:
+                        endDate:
                           type: string
                           format: date
                         summaries:
@@ -272,12 +272,12 @@ paths:
                           type: string
                         degree:
                           type: string
-                        field_of_study:
+                        fieldOfStudy:
                           type: string
-                        start_date:
+                        startDate:
                           type: string
                           format: date
-                        end_date:
+                        endDate:
                           type: string
                           format: date
                   languages:
@@ -368,17 +368,17 @@ paths:
                 user_cv:
                   type: object
                   required:
-                  - personal_info
+                  - personalInfo
                   properties:
-                    personal_info:
+                    personalInfo:
                       type: object
                       required:
-                      - first_name
-                      - last_name
+                      - firstName
+                      - lastName
                       properties:
-                        first_name:
+                        firstName:
                           type: string
-                        last_name:
+                        lastName:
                           type: string
                         email:
                           type: string
@@ -389,7 +389,7 @@ paths:
                           type: string
                         summary:
                           type: string
-                        linked_in:
+                        linkedIn:
                           type: string
                         github:
                           type: string
@@ -414,10 +414,10 @@ paths:
                             type: string
                           location:
                             type: string
-                          start_date:
+                          startDate:
                             type: string
                             format: date
-                          end_date:
+                          endDate:
                             type: string
                             format: date
                           summaries:
@@ -440,12 +440,12 @@ paths:
                             type: string
                           degree:
                             type: string
-                          field_of_study:
+                          fieldOfStudy:
                             type: string
-                          start_date:
+                          startDate:
                             type: string
                             format: date
-                          end_date:
+                          endDate:
                             type: string
                             format: date
                     languages:
@@ -499,7 +499,7 @@ paths:
                 skill_result:
                   type: object
                   properties:
-                    hard_skills:
+                    hardSkills:
                       type: array
                       items:
                         type: object
@@ -512,7 +512,7 @@ paths:
                           score:
                             type: number
                             format: float
-                    soft_skills:
+                    softSkills:
                       type: array
                       items:
                         type: object
@@ -626,7 +626,7 @@ paths:
               schema:
                 type: object
                 properties:
-                  hard_skills:
+                  hardSkills:
                     type: array
                     items:
                       type: object
@@ -639,7 +639,7 @@ paths:
                         score:
                           type: number
                           format: float
-                  soft_skills:
+                  softSkills:
                     type: array
                     items:
                       type: object
@@ -692,17 +692,17 @@ components:
     UserCV:
       type: object
       required:
-      - personal_info
+      - personalInfo
       properties:
-        personal_info:
+        personalInfo:
           type: object
           required:
-          - first_name
-          - last_name
+          - firstName
+          - lastName
           properties:
-            first_name:
+            firstName:
               type: string
-            last_name:
+            lastName:
               type: string
             email:
               type: string
@@ -713,7 +713,7 @@ components:
               type: string
             summary:
               type: string
-            linked_in:
+            linkedIn:
               type: string
             github:
               type: string
@@ -738,10 +738,10 @@ components:
                 type: string
               location:
                 type: string
-              start_date:
+              startDate:
                 type: string
                 format: date
-              end_date:
+              endDate:
                 type: string
                 format: date
               summaries:
@@ -764,12 +764,12 @@ components:
                 type: string
               degree:
                 type: string
-              field_of_study:
+              fieldOfStudy:
                 type: string
-              start_date:
+              startDate:
                 type: string
                 format: date
-              end_date:
+              endDate:
                 type: string
                 format: date
         languages:
@@ -840,7 +840,7 @@ components:
     SkillResult:
       type: object
       properties:
-        hard_skills:
+        hardSkills:
           type: array
           items:
             type: object
@@ -853,7 +853,7 @@ components:
               score:
                 type: number
                 format: float
-        soft_skills:
+        softSkills:
           type: array
           items:
             type: object
