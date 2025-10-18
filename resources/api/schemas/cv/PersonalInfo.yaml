@@ -1,11 +1,11 @@
 type: object
 required:
-  - first_name
-  - last_name
+  - firstName
+  - lastName
 properties:
-  first_name:
+  firstName:
     type: string
-  last_name:
+  lastName:
     type: string
   email:
     type: string
@@ -16,7 +16,7 @@ properties:
     type: string
   summary:
     type: string
-  linked_in:
+  linkedIn:
     type: string
   github:
     type: string

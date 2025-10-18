@@ -1,8 +1,8 @@
 type: object
 required:
-  - personal_info
+  - personalInfo
 properties:
-  personal_info:
+  personalInfo:
     $ref: "./PersonalInfo.yaml"
   skills:
     type: array

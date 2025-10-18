@@ -8,10 +8,10 @@ properties:
     type: string
   location:
     type: string
-  start_date:
+  startDate:
     type: string
     format: date
-  end_date:
+  endDate:
     type: string
     format: date
   summaries:
